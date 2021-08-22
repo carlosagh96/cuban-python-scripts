@@ -1,7 +1,7 @@
 #!/usr/bin/python3.5
 # Script para comprobar integridad de archivos a partir de listas MD5 o SHA256
 
-# Las listas pueden crearse usando este programa o con la siguiente orden desde cualquier sistema UNIX:
+# Las listas pueden crearse usando este programa. También pueden crearse desde cualquier sistema UNIX de esta forma:
 # $ md5sum *|sed 's/ */\t/'>archivos.md5
 # $ sha256sum *|sed 's/ */\t/'>archivos.sha256
 
