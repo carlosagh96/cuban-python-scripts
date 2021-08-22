@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7
+#!/usr/bin/python3.5
 # Script para crear un archivo "index.html" a partir de páginas web guardadas
 # Escrito por Carlos Alberto González Hernández
 
