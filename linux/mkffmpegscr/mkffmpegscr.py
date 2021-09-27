@@ -2,7 +2,11 @@
 
 # Programa para generar scripts de Bash para transcodificar con FFmpeg
 # Solo se tiene en cuenta un archivo de entrada y uno de salida por cada órden/línea
-
+# Agumentos: N [e|p] C
+# N = No. de la configuración
+# e = Modo escritura
+# p = Modo prueba (no genera el script)
+# C = Contenedor de los archivos de salida (Depende de la configuración)
 # Las configuraciones se guardan en un JSON, que debe nombrarse igual que este script
 # Llevado a diccionario:
 # → Cada clave es el título de la configuración (texto)
