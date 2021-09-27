@@ -235,7 +235,7 @@ for fname in vfiles:
 	if out_type==_out_from:
 		sfx=valid_cout[0]
 
-	sec_out=things+curr_stem+"."+sfx+things
+	sec_out=things+curr_stem+"_."+sfx+things
 
 	if mod_autoinc:
 		sec_out=sec_out+";"+var_autoinc+"=$(expr $"+var_autoinc+" +1)"
