@@ -2,11 +2,7 @@
 
 # Programa para generar scripts de Bash para transcodificar con FFmpeg
 # Solo se tiene en cuenta un archivo de entrada y uno de salida por cada órden/línea
-# Agumentos: N [e|p] C
-# N = No. de la configuración
-# e = Modo escritura
-# p = Modo prueba (no genera el script)
-# C = Contenedor de los archivos de salida (Depende de la configuración)
+
 # Las configuraciones se guardan en un JSON, que debe nombrarse igual que este script
 # Llevado a diccionario:
 # → Cada clave es el título de la configuración (texto)
@@ -29,13 +25,20 @@ _path_app_rel=sys.argv[0]
 _path_app_pl=Path(_path_app_rel)
 _path_app=_path_app_pl.resolve()
 _path_app_dir=_path_app_pl.parent.resolve()
-_thyname=_path_app_pl.stem
-_path_configfile=str(_path_app_dir)+"/"+str(_thyname)+".json"
+_thystem=_path_app_pl.stem
+_thyname=_path_app_pl.name
+_path_configfile=str(_path_app_dir)+"/"+str(_thystem)+".json"
 
-print(sys.argv)
+# print(sys.argv)
 
-with open(_path_configfile) as cfgs:
-	cfg_raw_lst=cfgs.readlines()
+try:
+	with open(_path_configfile) as cfgs:
+		cfg_raw_lst=cfgs.readlines()
+
+except Exception as e:
+	print("ERROR: mientras se leía la configuración\n",_path_configfile)
+	print(e)
+	exit()
 
 cfg_raw=""
 for line in cfg_raw_lst:
@@ -49,8 +52,10 @@ if len(sys.argv)>1:
 	pass
 
 else:
+	print("[Uso del programa]")
+	print(_thyname,"NConf Modo Opcs\nNConf: Seleccionar la configuración\nModo: Puede ser 'e' o 'p'\nEl primero es para escribir el archivo 'Convertir.sh', el segundo es sólo para probar\nOpcs: Según la configuración que elija, se le va a pedir que obligatoriamente elija un formato contenedor para la salida (el punto del sufijo se omite)")
 	c=0
-	print("Configuraciones disponibles")
+	print("\n[Configuraciones disponibles]")
 	for t in aconfigs:
 		print(c,t)
 		c=c+1
@@ -172,6 +177,8 @@ for fpl in stuff_pl:
 			if fpl_sfx==s:
 				vfiles=vfiles+[fpl.name]
 
+vfiles.sort()
+
 if len(vfiles)>0:
 	print("Archivos válidos:\n",vfiles)
 
@@ -237,7 +244,7 @@ for fname in vfiles:
 		sfx=out_sel
 
 	if out_type==_out_from:
-		sfx=valid_cout[0]
+		sfx=valid_cout[0][1:]
 
 	sec_out=things+curr_stem+"_."+sfx+things
 
@@ -247,5 +254,13 @@ for fname in vfiles:
 	new=sec_init+space+ffmpeg_args+space+sec_out
 	scrlines=scrlines+new+lbreak
 
-with open("Convertir.sh","w") as scr:
-	scr.write(scrlines)
+try:
+	with open("Convertir.sh","w") as scr:
+		scr.write(scrlines)
+
+except Exception as e:
+	print("ERROR mientras se generaba el archivo")
+	print(e)
+
+else:
+	print("Archivo 'Convertir.sh' escrito")
