@@ -228,7 +228,7 @@ for v in dvars:
 	scrlines=scrlines+v[1:]+"=\"\""+lbreak
 
 if mod_autoinc:
-	scrlines=scrlines+var_autoinc[1:]+"=1"+lbreak
+	scrlines=scrlines+"AUTONUM=1"+lbreak
 
 for fname in vfiles:
 	curr_stem=Path(fname).stem
@@ -236,6 +236,9 @@ for fname in vfiles:
 	sec_init=ffmpeg_start+space+things+fname+things
 	if mod_stem:
 		sec_init="STEM=\""+curr_stem+"\";"+sec_init
+
+	if mod_autoinc:
+		sec_init=var_autoinc[1:]+"=$(seq -w $AUTONUM"+space+str(maxfiles)+"|head -n1);"+sec_init
 
 	if out_type==_out_same:
 		sfx=curr_csfx
@@ -249,7 +252,7 @@ for fname in vfiles:
 	sec_out=things+curr_stem+"_."+sfx+things
 
 	if mod_autoinc:
-		sec_out=sec_out+";"+var_autoinc+"=$(expr $"+var_autoinc+" +1)"
+		sec_out=sec_out+";AUTONUM=$(expr $AUTONUM +1)"
 
 	new=sec_init+space+ffmpeg_args+space+sec_out
 	scrlines=scrlines+new+lbreak
