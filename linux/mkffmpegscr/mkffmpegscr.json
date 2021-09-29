@@ -8,5 +8,4 @@
 "Convertir Anime (H264) LVL3: + Título":["-metadata title=\"$TITLE\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
 "Convertir Anime (H264) LVL4: + declarar la primera pista de audio como japonesa":["-metadata title=\"$TITLE\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow -metadata:s:a:0 language=jpn",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
 "Convertir Anime (H264) LVL5: + Título con Incremento (EPISODIOS)":["-metadata title=\"$TITLE $AUTOINC\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow -metadata:s:a:0 language=jpn",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
-"Agregar publicidad":["-sub_charenc 'UTF-8' -f ass -i /media/root/TRABAJO/NEGOCIO/publicidad_carlosagh.ass -map 0 -map 1 -c copy -c:s ass -metadata:s:s:0 language=spa -disposition:s:0 default",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".mkv"]]
 }
