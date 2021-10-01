@@ -1,11 +1,14 @@
 {
 "Quitar audio y dejar solo el video":["-map 0:v:0 -c:v copy",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"]],
 "Extraer audio solamente":["-map 0:a:0 -c:a copy",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".m4a",".mp3",".ogg"]],
+"Extraer primera pista de texto":["-map 0:s:0 -c:a copy",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".ass"]],
 "Agregar pista de texto":["-i \"$STEM\"\".ass\" -codec copy",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".mkv"]],
 "Desempacar BFrames (AVI,MPEG4,DIVX...)":["-codec copy -bsf:v mpeg4_unpack_bframes",[".avi",".mkv",".mpg",".rm",".rmvb",".wmv"]],
-"Convertir Anime (H264) LVL1":["-c:v h264 -crf 26 -framerate 24 -tune animation -c:a aac -preset veryslow",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
-"Convertir Anime (H264) LVL2: Especificar CRF":["-c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
-"Convertir Anime (H264) LVL3: + Título":["-metadata title=\"$TITLE\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
-"Convertir Anime (H264) LVL4: + declarar la primera pista de audio como japonesa":["-metadata title=\"$TITLE\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow -metadata:s:a:0 language=jpn",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
-"Convertir Anime (H264) LVL5: + Título con Incremento (EPISODIOS)":["-metadata title=\"$TITLE $AUTOINC\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow -metadata:s:a:0 language=jpn",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
+"Sustituir primera pista de texto por pista externa":["-i \"$STEM\"\".ass\" -map 0 -map -0:s:0 -map 1 -codec copy",[".mkv"]],
+"Receta de Anime (H264) LVL1":["-c:v h264 -crf 26 -framerate 24 -tune animation -c:a aac -preset veryslow",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
+"Receta de Anime (H264) LVL2: Especificar CRF":["-c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
+"Receta de Anime (H264) LVL3: + Título":["-metadata title=\"$TITLE\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
+"Receta de Anime (H264) LVL4: + declarar la primera pista de audio como japonesa":["-metadata title=\"$TITLE\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow -metadata:s:a:0 language=jpn",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
+"Receta de Anime (H264) LVL5: + Título con Incremento (EPISODIOS)":["-metadata title=\"$TITLE $AUTOINC\" -c:v h264 -crf $CRF -framerate 24 -tune animation -c:a aac -preset veryslow -metadata:s:a:0 language=jpn",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".flv",".mkv",".mp4"]],
+"Agregar spam":["-sub_charenc 'UTF-8' -f ass -i \"$APPDIR\"/spam.ass -map 0 -map 1 -c copy -c:s ass -metadata:s:s:0 language=spa -disposition:s:0 default",[".avi",".flv",".m4v",".mkv",".mp4",".mpg",".ogv",".rm",".rmvb",".webm",".wmv"],[".mkv"]]
 }

@@ -2,16 +2,25 @@
 
 # Programa para generar scripts de Bash para transcodificar con FFmpeg
 # Solo se tiene en cuenta un archivo de entrada y uno de salida por cada órden/línea
-
 # Las configuraciones se guardan en un JSON, que debe nombrarse igual que este script
-# Llevado a diccionario:
+
+# Llevado a diccionario el JSON:
 # → Cada clave es el título de la configuración (texto)
 # → Cada valor son los elementos de la configuración (lista)
-# → Elem. 0: Las opciones de configuración de FFmpeg (texto)
+# → Elem. 0: Las opciones de configuración de FFmpeg exceptuando el archivo de entrada y el de salida (texto)
 # → Elem. 1: Los archivos válidos para la configuración actual (lista)
 # → Elem. 2: (OPCIONAL) Argumento extra para declarar el contenedor de salida (lista)
 
-# Escrito por Carlos Alberto González hernández
+# Variables:
+# Las variables son reconocidas en la configuración, por cada variable se le da la oportunidad de darle valor al inico del script ya hecho
+# Sin embargo, tenga en cuenta que hay variables especiales, todas ellas son texto
+
+# Variables especiales:
+# APPDIR → El directorio del programa. Puede guardar archivos junto a este programa y usarlos. Tenga en cuenta que la ruta es absoluta y no termina en "/"
+# STEM → EL tallo del nombre del archivo de entrada actual, es decir, el nombre del archivo sin el sufijo. Útil para declarar archivos de entrada para trabajar el archivo en cuestión
+# AUTOINC → Autoincremento, ideal para enumeraciones de episodios de series, etc... al usarla aparecerán en el script las variables AUTONUM y MAXNUM. AUTONUM es el numero inicial, MAXNUM es el máximo y AUTOINC es el resultado de procesar ambos antes de ejecutar la órden de FFmpeg con el archivo actual. Después de la órden de FFmpeg, AUTONUM aumenta en 1 y asi sucesivamente hasta el último
+
+# Programa escrito por Carlos Alberto González hernández
 # https://t.me/CarlosAGH
 
 import json
@@ -124,14 +133,23 @@ else:
 
 	mod_autoinc=False
 	mod_stem=False
+	mod_appdir=False
 	if len(dvars)>0:
 		var_autoinc="$AUTOINC"
 		var_stem="$STEM"
+		var_appdir="$APPDIR"
+
 		print("Variables detectadas en las opciones de FFmpeg:\n",dvars)
+
 		if var_autoinc in dvars:
 			print(var_autoinc,"→ Variable especial: Autoincremento")
 			dvars.remove(var_autoinc)
 			mod_autoinc=True
+
+		if var_appdir in dvars:
+			print(var_appdir,"→ Variable especial: Directorio del programa")
+			dvars.remove(var_appdir)
+			mod_appdir=True
 
 		if var_stem in dvars:
 			print(var_stem,"→ Variable especial: Tallo")
@@ -219,6 +237,8 @@ maxfiles=len(vfiles)
 ffmpeg_start="ffmpeg -i"
 
 space=" "
+dot="."
+uscore="_"
 lbreak="\n"
 things="\""
 
@@ -229,6 +249,10 @@ for v in dvars:
 
 if mod_autoinc:
 	scrlines=scrlines+"AUTONUM=1"+lbreak
+	scrlines=scrlines+"MAXNUM="+str(maxfiles)+lbreak
+
+if mod_appdir:
+	scrlines=scrlines+"APPDIR="+things+str(_path_app_dir)+things+lbreak
 
 for fname in vfiles:
 	curr_stem=Path(fname).stem
@@ -238,7 +262,7 @@ for fname in vfiles:
 		sec_init="STEM=\""+curr_stem+"\";"+sec_init
 
 	if mod_autoinc:
-		sec_init=var_autoinc[1:]+"=$(seq -w $AUTONUM"+space+str(maxfiles)+"|head -n1);"+sec_init
+		sec_init=var_autoinc[1:]+"=$(seq -w $AUTONUM"+space+"$MAXNUM"+"|head -n1);"+sec_init
 
 	if out_type==_out_same:
 		sfx=curr_csfx
@@ -249,10 +273,14 @@ for fname in vfiles:
 	if out_type==_out_from:
 		sfx=valid_cout[0][1:]
 
-	sec_out=things+curr_stem+"_."+sfx+things
+	outname=curr_stem+dot+sfx
+	if outname==fname:
+		outname=curr_stem+uscore+dot+sfx
+
+	sec_out=things+outname+things
 
 	if mod_autoinc:
-		sec_out=sec_out+";AUTONUM=$(expr $AUTONUM +1)"
+		sec_out=sec_out+";AUTONUM=$(expr $AUTONUM + 1)"
 
 	new=sec_init+space+ffmpeg_args+space+sec_out
 	scrlines=scrlines+new+lbreak
