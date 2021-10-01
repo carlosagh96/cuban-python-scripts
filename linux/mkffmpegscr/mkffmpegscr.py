@@ -244,8 +244,14 @@ things="\""
 
 scrlines="#!/bin/bash"+lbreak
 
+if len(dvars)>0:
+	scrlines=scrlines+lbreak+"# Variables"+lbreak
+
 for v in dvars:
 	scrlines=scrlines+v[1:]+"=\"\""+lbreak
+
+if mod_autoinc or mod_appdir:
+	scrlines=scrlines+lbreak+"# Variables especiales"+lbreak
 
 if mod_autoinc:
 	scrlines=scrlines+"AUTONUM=1"+lbreak
@@ -253,6 +259,8 @@ if mod_autoinc:
 
 if mod_appdir:
 	scrlines=scrlines+"APPDIR="+things+str(_path_app_dir)+things+lbreak
+
+scrlines=scrlines+lbreak
 
 for fname in vfiles:
 	curr_stem=Path(fname).stem
