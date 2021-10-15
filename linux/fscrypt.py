@@ -129,7 +129,6 @@ if len(sys.argv)>1:
 			if _job_dec in job:
 				print("Descifrando...")
 
-
 			for tfile in tfiles:
 				tfile_name=tfile.name
 				outfile_pl=outdir.joinpath(tfile_name)
